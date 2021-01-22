@@ -1,0 +1,42 @@
+html, body {
+    height: 100%;
+    width: 100%;
+  }
+  
+  main{
+    min-height: 100%;
+  }
+
+  .footer{
+    background-color: #343a40;
+    color: rgb(223, 222, 222);
+    height: 120px;
+    position: relative;
+  }
+  
+  .footer .footer-bottom {
+    background-color: #272a2e;
+    color: rgb(167, 167, 167);
+    height: 20px;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    margin-top: 5px;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+  }
+
+ .footer .footer-content {
+    height: 110px;
+    display: flex;
+  }
+
+  .footer .footer-content .footer-section {
+    flex: 1;
+    margin: auto;
+    display: flex;
+    padding-left: 30px;
+    align-items: center;
+  }

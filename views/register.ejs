@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Prodavnica</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<main>
+
+    <%- include('partials/navbar.ejs'); %>
+    <div class="row mt-5">
+        <div class="col-md-6 m-auto">
+            <div class="card card-body">
+                <h1 class="text-center mb-3">
+                    <i class="fa fa-user-plus"></i> Registruj se
+                </h1>         
+                <%- include('partials/messages.ejs'); %>
+                <form action="/register" method="POST">
+                    <div class="form-group">
+                        <label for="name">Ime i prezime</label>
+                        <input type="name" id="name" name="name" class="form-control" placeholder="Unesi ime i prezime"
+                            value="<%= typeof name != 'undefined' ? name : '' %>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="adresa">Adresa</label>
+                        <input type="adresa" id="adresa" name="adresa" class="form-control" placeholder="Unesi adresu"
+                            value="<%= typeof adresa != 'undefined' ? adresa : '' %>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Broj">Broj telefona</label>
+                        <input type="number" id="broj" name="broj" class="form-control" placeholder="Unesi broj telefona"
+                            value="<%= typeof broj != 'undefined' ? broj : '' %>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" placeholder="Unesi email"
+                            value="<%= typeof email != 'undefined' ? email : '' %>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Lozinka</label>
+                        <input type="password" id="password" name="password" class="form-control"
+                            placeholder="Unesi lozinku"
+                            value="<%= typeof password != 'undefined' ? password : '' %>" />
+                    </div>
+                    <div class="form-group">
+                        <label for="password2">Potvrdi lozinku</label>
+                        <input type="password" id="password2" name="password2" class="form-control"
+                            placeholder="Potvrdi lozinku"
+                            value="<%= typeof password2 != 'undefined' ? password2 : '' %>" />
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">
+                        Registruj se
+                    </button>
+                </form>
+                <p class="lead mt-4">Imaš nalog? <a style="color: #5cb85c;" href="/login">Prijavi se!</a></p>
+            </div>
+        </div>
+    </div>
+    <br>
+</main>
+    <%- include ('partials/footer.ejs'); %>

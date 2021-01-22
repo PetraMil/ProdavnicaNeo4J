@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Prodavnica</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+<%- include('partials/navbar.ejs'); %>
+<%- include('partials/messages.ejs'); %>
+    <body>
+        <main role="main">
+            <div class="row mt-5">
+                <div class="col-md-6 m-auto">
+                    <div class="card card-body">
+                        <h1>Tipovi</h1>
+                            <table class="table table-dark table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col" class="text-center">Tipovi proizvoda</th>
+                                        <%if(currentUser && currentUser.tip=='admin') { %>
+                                        <th scope="col"></th>
+                                        <% } %>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% var i=0 %>
+                                    <% tipovi.forEach (function (tip){ %>
+                                    <% i++ %>
+                                    <tr>
+                                        <th scope="row"><%=i%></th>
+                                        <td>
+                                            <a class="btn btn-md btn-outline-success" style="width: 100%; height: 100%;" href="/proizvodi/<%=tip.id%>"><%= tip.naziv %> </a>
+                                        </td>
+                                        <%if(currentUser && currentUser.tip=='admin') { %>
+                                         <td scope="col"> 
+                                            <button class="btn btn-md btn-outline-light" data-toggle="modal" data-target="#myModal<%= tip.id %>" >Obriši</button>
+                                         </td>
+                                        <% } %>
+                                    </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                            </section>
+                            <br>
+                            <%if(currentUser && currentUser.tip=='admin'){%>
+                            <div>
+                                <a class="btn btn-success shadow" style="border-radius: 30px; letter-spacing: 2px;"
+                                    href="/proizvod/new"> Dodaj novi proizvod</a>
+                                <a class="btn btn-success shadow" style="border-radius: 30px; letter-spacing: 2px;"
+                                    href="/tip/new"> Dodaj novi tip proizvoda</a>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </body>
+    </main>
+
+    <% tipovi.forEach(tip=>{ %>
+        <div class="modal" id="myModal<%= tip.id %>" tabindex="-1" role="dialog">
+          <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title">Brisanje tipa <%= tip.naziv%></h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      <p>Da li ste sigurni da zelite da obrišete tip proizvoda?</p>
+                      <small>Brisanjem tipa brišu se i svi proizvodi koji mu pripadaju</small>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                      <form action="/tipovi/<%=tip.id%>/delete?_method=DELETE" method="POST" class="delete-form">
+                        <button class="btn btn-success">Obriši</button>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <% }) %>
+    <%- include ('partials/footer.ejs'); %>

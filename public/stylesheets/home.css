@@ -1,0 +1,46 @@
+body, html{
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+.section-top{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    background-image: url(/image1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    animation: slide 22s infinite;
+}
+
+.content{
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-transform: uppercase;
+    text-align: center;
+}
+.naslov {
+    color: rgb(11, 85, 27);
+    font-size: 45px;
+    letter-spacing: 5px;  
+    text-shadow: 2px 0 #343a40;
+    font-weight: bold;
+}
+
+@keyframes slide {
+    0%{
+        background-image: url(/image1.jpg);
+    }
+    33%{
+        background-image: url(/image2.jpg);
+    }
+    66%{
+        background-image: url(/image3.jpg);
+    }
+}

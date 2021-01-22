@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Prodavnica</title>
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+  </style>
+</head>
+<%- include('partials/navbar.ejs'); %>
+
+<body>
+  <main role="main">
+    <div class="container">
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 style="letter-spacing: 10px; text-transform: uppercase;"><%=tip.naziv %></h1>
+          <p class="lead text-muted">Vidite proizvode raspoređene po ceni: </p>
+          <div class="btn-group">
+            <a class="btn btn-outline-success" href="/proizvodi/<%=tip.tid%>/cena/najmanja_prvo"> Rastuća </a>
+            <a class="btn btn-outline-success" href="/proizvodi/<%=tip.tid%>/cena/najveca_prvo"> Opadajuća </a>
+            <a class="btn btn-outline-success" href="/proizvodi/<%=tip.tid%>"> Bez filtera</a>
+          </div>
+        </div>
+      </section>
+    </div>
+    <%- include('partials/messages.ejs'); %>
+    <div class="album py-5 bg-light">
+      <div class="container">
+        <div class="row">
+          <% proizvodi.forEach(proizvod=>{ %>
+          <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="card mb-4 shadow">
+              <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="<%=proizvod.slika%> "
+                preserveAspectRatio="xMidYMid slice">
+              <div class="card-body">
+                <p class="card-text"> <%=proizvod.naziv %> </p>
+                <p class="card-text text-muted"> <%=proizvod.opis %> </p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group profile-userbuttons">
+                    <% if(currentUser && currentUser.tip=='kupac') { %>
+                    <button class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#myModal1<%= proizvod.id %>" >Dodaj u korpu</button>
+                    <% } %>
+                    <% if(!currentUser) { %>
+                      <button class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#myModal" >Dodaj u korpu</button>
+                    <% } %>
+                    <% if(currentUser && currentUser.tip=='admin') { %>
+                    <button class="btn btn-sm btn-outline-dark" data-toggle="modal" data-target="#myModal<%= proizvod.id %>" >Obriši</button>
+                    <a type="button" class="btn btn-sm btn-outline-success" href="/proizvodi/<%=tip.tid%>/proizvod/<%=proizvod.id%>/edit">Izmeni</a>
+                    <% } %>
+                  </div class="text-right">
+                  <small class="text-muted"> <%=proizvod.cena %>RSD </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+      </div>
+      <footer class="text-muted">
+        <div class="container">
+          <p class="float-right">
+            <a style="color: #5cb85c;" href="/tipovi">Vrati se nazad</a>
+          </p>
+        </div>
+      </footer>
+  </main>
+  
+  <% if(currentUser) { %>
+  <% proizvodi.forEach(proizvod=>{ %>
+    <div class="modal" id="myModal<%= proizvod.id %>" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">Brisanje proizvoda <%= proizvod.naziv%></h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <p>Da li ste sigurni da zelite da obrišete proizvod?</p>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                  <form action="/proizvodi/<%=tip.tid%>/proizvod/<%= proizvod.id %>/delete?_method=DELETE" method="POST" class="delete-form">
+                    <button class="btn btn-success">Obriši</button>
+                  </form>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="modal" id="myModal1<%= proizvod.id %>" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dodaj proizvod <%= proizvod.naziv%></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Da li želite da dodate proizvod u korpu?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                <form action="/proizvodi/<%=tip.tid%>/proizvod/<%=proizvod.id%>/dodaj/<%=currentUser.uid.low%>?_method=POST" method="POST" class="delete-form">
+                  <button class="btn btn-success">Dodaj</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+  <% })} %>
+
+  <div class="modal" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Dodavanje proizvoda u korpu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Da biste dodali proizvod u korpu morate biti prijavljeni!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Odustani</button>
+                <a class="btn btn-success" href="/register">Registruj se</a>
+                <a class="btn btn-success" href="/login">Prijavi se</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+  
+  <%- include ('partials/footer.ejs'); %>

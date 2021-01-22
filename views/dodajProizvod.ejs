@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Prodavnica</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+</head>
+
+<body>
+<main>
+    <%- include('partials/navbar.ejs'); %>
+    <div class="row mt-5">
+        <div class="col-md-6 m-auto">
+            <div class="card card-body">
+                <h2 class="text-center mb-3"> Dodavanje novog proizvoda </h2>
+                <%- include('partials/messages.ejs'); %>
+                <form action="/proizvod/new" method="POST">
+                    <div class="form-group">
+                        <label for="naziv">Naziv</label>
+                        <input type="text" id="naziv" name="naziv" class="form-control" placeholder="Unesi naziv proizvoda"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="cena">Cena</label>
+                        <input type="number" id="cena" name="cena" class="form-control" placeholder="Unesi cenu proizvoda"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="kolicina">Količina</label>
+                        <input type="number" id="kolicina" name="kolicina" class="form-control" placeholder="Unesi količinu dostupnog proizvoda"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="opis">Opis</label>
+                        <input type="text" id="opis" name="opis" class="form-control" placeholder="Unesi opis proizvoda"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="slika">Slika</label>
+                        <input type="text" id="slika" name="slika" class="form-control" placeholder="Unesi URL slike"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="tip">Tip</label>
+                        <br>
+                        <select name="tip" id="tip">
+                            <% tipovi.forEach(tip=>{ %>
+                            <option value=<%=tip.id%>> <%=tip.naziv%></option>
+                            <% }) %>
+                          </select>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">Potvrdi</button>
+                </form>
+                <br>
+                    <a style="color: #5cb85c;" href="/tipovi">Vrati se nazad</a>
+            </div>
+        </div>
+    </div>
+    <br>
+</main>
+    <%- include ('partials/footer.ejs'); %>
