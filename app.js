@@ -327,9 +327,19 @@ app.post("/proizvodi/:tid/proizvod/:id/delete", isAdmin, function (req, res) {
 })
 
 app.post("/tipovi/:tid/delete", isAdmin, function (req, res) {
-    n4jsession.run('MATCH(t:TipProizvoda {tid:toInteger($tidParam)}), (t)-[r:SADRZI]->(p) DETACH DELETE p, t', {tidParam: req.params.tid}).then(record => {
-        req.flash('success_msg', 'Tip je obrisan!');
-        res.redirect('/tipovi');
+    n4jsession.run('MATCH(t:TipProizvoda {tid:toInteger($tidParam)}), (t)-[r:SADRZI]->(p) RETURN p', {tidParam: req.params.tid}).then(proizvod => {
+        if(_.isEmpty(proizvod.records)){
+            n4jsession.run('MATCH(t:TipProizvoda {tid:toInteger($tidParam)}) DETACH DELETE t', {tidParam: req.params.tid}).then(result=>{
+                console.log(result);
+                req.flash('success_msg', 'Tip je obrisan!');
+                res.redirect('/tipovi');
+            }).catch(err=>{console.log(err);})
+        }else{
+            n4jsession.run('MATCH(t:TipProizvoda {tid:toInteger($tidParam)}), (t)-[r:SADRZI]->(p) DETACH DELETE p, t', {tidParam: req.params.tid}).then(r=>{
+                req.flash('success_msg', 'Tip je obrisan!');
+                res.redirect('/tipovi');
+            }).catch(err=>{console.log(err);})
+        }
     }).catch(err => {
         console.log(err);
     })
